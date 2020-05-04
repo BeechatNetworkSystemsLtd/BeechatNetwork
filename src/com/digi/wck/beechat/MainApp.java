@@ -232,38 +232,6 @@ public class MainApp {
 	        	System.out.println("Error checking requirement installations.");
 		}
 
-		try {
-	        if (py3isinstalled == false) {
-	        	System.out.println("Installing Python3.");
-				Process python3install = Runtime.getRuntime().exec(new String[]{
-						"bash", "-c", "pkexec apt-get install python3"});
-				python3install.waitFor();
-	        } else {
-	        	//System.out.println("Python 3 already installed.");
-	        }
-
-	        if (p7zipisinstalled == false) {
-	        	System.out.println("Installing 7Zip.");
-		        Process p7zipcheck = Runtime.getRuntime().exec(new String[]{
-		        		"bash", "-c", "pkexec apt-get install p7zip"});
-		        p7zipcheck.waitFor();
-	        } else {
-	        	//System.out.println("7Zip already installed.");
-	        }
-
-	        if (opensslisinstalled == false) {
-	        	System.out.println("Installing OpenSSL.");
-		        Process opensslcheck = Runtime.getRuntime().exec(new String[]{
-		        		"bash", "-c", "pkexec apt-get install openssl"});
-		    	opensslcheck.waitFor();
-	        } else {
-	        	//System.out.println("OpenSSL already installed.");
-	        }
-
-
-		} catch (IOException e1) {
-			System.out.println("Error installing requirements: "+e1.getMessage());
-		}
 
 		Path[] allresources = new Path[6];
 
