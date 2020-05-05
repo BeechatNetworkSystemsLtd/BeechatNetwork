@@ -1124,34 +1124,34 @@ public class MainApp {
 	public static void changeid(XBeeDevice myDevice, String newname) throws InterruptedException {
 		Scanner scan = new Scanner(System.in);
 		try {
-            myDevice.open();
-            myDevice.addDataListener(listener);
-            System.out.println("\nCurrent NodeID: " + myDevice.getNodeID());
-            System.out.println("\nInput new NodeID:");
+            		myDevice.open();
+            		myDevice.addDataListener(listener);
+			System.out.println("\nCurrent NodeID: " + myDevice.getNodeID());
+			System.out.println("\nInput new NodeID:");
+			String NEW_NODE_ID = scan.next();
+			
+            		if (NEW_NODE_ID.equals("random")) {
+            		//generate random nodeID
+            			try {
+    		        		Process randomnodeid = Runtime.getRuntime().exec(new String[]{
+    			    			"bash", "-c", "head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 > " + configfilesLocation.toString() + "/mynodeid"});
+    		        		randomnodeid.waitFor();
+    		        		NEW_NODE_ID = file2string( configfilesLocation.toString()  + "/mynodeid");
 
-			String NEW_NODE_ID = newname;//scan.next();
-            if (NEW_NODE_ID.equals("random")) {
-            	//generate random nodeID
-            	try {
-    		        Process randomnodeid = Runtime.getRuntime().exec(new String[]{
-    			    "bash", "-c", "head /dev/urandom | tr -dc A-Za-z0-9 | head -c 13 > " + configfilesLocation.toString() + "/mynodeid"});
-    		        randomnodeid.waitFor();
-    		        NEW_NODE_ID = file2string( configfilesLocation.toString()  + "/mynodeid");
-
-    		        Process deletefile = Runtime.getRuntime().exec(new String[]{
+    		        		Process deletefile = Runtime.getRuntime().exec(new String[]{
     						"bash", "-c", "rm -rf " + configfilesLocation.toString() + "/mynodeid"});
-    				deletefile.waitFor();
-    			} catch (IOException e1) {
-    		        	System.out.println("Error creating nodeid file.");
-    		        }
-            }
-            myDevice.setNodeID(NEW_NODE_ID);
-            myDevice.writeChanges();
+    					deletefile.waitFor();
+    				} catch (IOException e1) {
+	    		        	System.out.println("Error creating nodeid file.");
+    			        }
+			}
+			myDevice.setNodeID(NEW_NODE_ID);
+            		myDevice.writeChanges();
 		} catch (XBeeException e) {
-            System.err.println("Error transmitting message: " + e.getMessage());
-            myDevice.close();
-            System.exit(1);
-        } finally {
+            		System.err.println("Error transmitting message: " + e.getMessage());
+            		myDevice.close();
+            		System.exit(1);
+        	} finally {
             myDevice.close();
             //scan.close();
             //close device
