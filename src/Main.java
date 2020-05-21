@@ -9,7 +9,6 @@ public class Main extends Constants {
         menu.setStatusLabel("Discovering devices, please wait...");
 
         menu.showWindow(); // Execution is passed over to the window class
-        // STOPSHIP: 5/19/20
 
     }
 

@@ -11,13 +11,10 @@ import java.util.Properties;
 
 public class Constants {
 
-
-
-
     // Default values until properties file is read and constants are established.
     // TODO: 5/15/20 Do this with Properties.default methods, not manually
 
-    private static String port = "/dev/ttyUSB0"; // TODO: 5/19/20 Are we sure this is the correct format? Wouldn't it just be "USB1", not "/dev/ttyUSB1"?
+    private static String port = "/dev/ttyUSB0";
     private static int baud_Rate = 9600;
     private static int discovery_timeout = 10;
 
@@ -78,11 +75,10 @@ public class Constants {
     static {
         device = new DigiMeshDevice(PORT, BAUD_RATE);
         try {
-            device.open(); // STOPSHIP: 5/19/20 requires superuser privileges, but xorg won't allow Swing GUI to be run as root!
-            // FIXME: 5/19/20 A possible fix to this may be to run the GUI in a separate process which does not have superuser privileges.
+            device.open();
 
         } catch (XBeeException e) {
-            //This will always occur unless the user has root privledges.
+
             JOptionPane.showMessageDialog(null, "An exception has occurred while opening " +
                             "connection interface with local device.\n" + e.getMessage() + "\nDo you have permission" +
                     " to access " + port + "?\nIs your module connected?\nIs your module properly configured?",
