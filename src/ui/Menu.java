@@ -1,3 +1,4 @@
+package ui;
 
 import com.digi.xbee.api.DigiMeshNetwork;
 import com.digi.xbee.api.RemoteXBeeDevice;

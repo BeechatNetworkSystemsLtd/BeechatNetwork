@@ -1,16 +1,19 @@
+package listeners;
+
 import com.digi.xbee.api.RemoteXBeeDevice;
 import com.digi.xbee.api.listeners.IDiscoveryListener;
-
-import javax.swing.*;
+import util.Constants;
+import javax.swing.JOptionPane;
 
 /**
- * Custom discovery listener. Use addDiscoveryListener(new BCDiscoveryListener) whenever setting up a new network.
+ * Custom discovery listener. Use addDiscoveryListener(new listeners.BCDiscoveryListener) whenever setting up a new network.
  */
 public class BCDiscoveryListener implements IDiscoveryListener {
 
     @Override
     public void deviceDiscovered(RemoteXBeeDevice remoteXBeeDevice) {
         System.out.println("Device discovered! " + remoteXBeeDevice.getNodeID());
+        System.out.println();
 
     }
 

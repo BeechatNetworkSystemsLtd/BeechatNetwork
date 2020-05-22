@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="BeeChatNetwork">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/out/artifacts/BeeChatNetwork_jar/BeeChatNetwork.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>

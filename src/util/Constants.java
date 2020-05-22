@@ -1,11 +1,16 @@
+package util;
 
 import com.digi.xbee.api.DigiMeshDevice;
 import com.digi.xbee.api.XBeeDevice;
 import com.digi.xbee.api.XBeeNetwork;
 import com.digi.xbee.api.exceptions.XBeeException;
-
+import listeners.BCDiscoveryListener;
+import ui.Menu;
 import javax.swing.*;
 import java.io.FileInputStream;
+import java.lang.management.ManagementFactory;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 
@@ -18,12 +23,32 @@ public class Constants {
     private static int baud_Rate = 9600;
     private static int discovery_timeout = 10;
 
+    /**
+     * Convenience method for getting a time stamp in the system time zone, such as for prefixing a report to the debug
+     * console during runtime. The value in parenthesis is the time since startup The system time zone is used.
+     * @return a string containing the time since program startup, the local date, and local time (ISO), with a
+     * colon and a space appended to the end
+     * @see LocalDateTime
+     * @see Runtime
+     */
+    public static String timestamp(){
+        // FIXME: 5/22/20 finish javadoc comment
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+
+        return "(" + uptime + ")" + // add the uptime
+                localDateTime.toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE) + " " +
+                localDateTime.toLocalTime().format(DateTimeFormatter.ISO_LOCAL_TIME) + ": ";
+    }
+
 
     static {
         try {
             // Load the properties file.
             Properties properties = new Properties();
-            properties.load(new FileInputStream("configuration.properties"));
+            properties.load(new FileInputStream("util/configuration.properties"));
 
             // Replace the default values with the values located in the properties file
             port = properties.getProperty("port");
