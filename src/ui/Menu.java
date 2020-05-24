@@ -5,9 +5,11 @@ import com.digi.xbee.api.RemoteXBeeDevice;
 import com.digi.xbee.api.XBeeNetwork;
 
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.lang.reflect.Array;
 import java.rmi.Remote;
 import java.util.ArrayList;
@@ -24,16 +26,33 @@ public class Menu {
     private JScrollPane messagesPane;
     private JLabel statusLabel;
     private JButton button1;
+    private JButton sendFileButton;
 
     public Menu() {
 
         sendButton.addActionListener(new ActionListener() {
-            /**
-             * Insert the text in the message text field into the conversation (send it to remote node)
-             */
+
             @Override
             public void actionPerformed(ActionEvent e) {
 
+
+
+
+            }
+        });
+
+        sendFileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+                int returnValue = fileChooser.showOpenDialog(null);
+                
+                if (returnValue == JFileChooser.APPROVE_OPTION){
+                    File selectedFile = fileChooser.getSelectedFile();
+                }
+
+                // TODO: 5/23/20 Send selectedFile to the active node 
+                
             }
         });
     }

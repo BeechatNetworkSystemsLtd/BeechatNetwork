@@ -2,15 +2,15 @@ package listeners;
 
 import com.digi.xbee.api.listeners.IDataReceiveListener;
 import com.digi.xbee.api.models.XBeeMessage;
+import util.Constants;
 
-import java.util.Arrays;
-
-public class BCDataReceiveListener implements IDataReceiveListener {
+public class BCDataReceiveListener extends Constants implements IDataReceiveListener {
     @Override
     public void dataReceived(XBeeMessage xBeeMessage) {
-        System.out.println("Message received from " + xBeeMessage.getDevice().getNodeID() + ": "
-                + Arrays.toString(xBeeMessage.getData()));
+        System.out.println(timestamp() + " received message from " + xBeeMessage.getDevice().getNodeID() + ": "
+        + xBeeMessage.getDataString());
 
+        // What should happen now?
 
     }
 

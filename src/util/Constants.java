@@ -6,12 +6,13 @@ import com.digi.xbee.api.XBeeNetwork;
 import com.digi.xbee.api.exceptions.XBeeException;
 import listeners.BCDiscoveryListener;
 import ui.Menu;
+
 import javax.swing.*;
 import java.io.FileInputStream;
 import java.lang.management.ManagementFactory;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Properties;
+import java.util.*;
 
 
 public class Constants {
@@ -23,11 +24,12 @@ public class Constants {
     private static int baud_Rate = 9600;
     private static int discovery_timeout = 10;
 
+
     /**
      * Convenience method for getting a time stamp in the system time zone, such as for prefixing a report to the debug
-     * console during runtime. The value in parenthesis is the time since startup The system time zone is used.
+     * console during runtime. The value in parenthesis is the time since startup.
      * @return a string containing the time since program startup, the local date, and local time (ISO), with a
-     * colon and a space appended to the end
+     * colon and a space appended to the end.
      * @see LocalDateTime
      * @see Runtime
      */
@@ -55,6 +57,7 @@ public class Constants {
             baud_Rate = Integer.parseInt(properties.getProperty("baud_rate"));
             discovery_timeout = Integer.parseInt(properties.getProperty("discovery_timeout"));
 
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Unable to read configuration file. \n" +
                             "Ensure that \"configuration.properties\" is present in the same directory (folder) as " +
@@ -66,13 +69,11 @@ public class Constants {
                             "\n\nError message: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
 
-            e.printStackTrace();
-
+            System.err.println(timestamp() + e.getMessage());
             // Execution can usually continue normally using default values
         }
     }
 
-    // TODO: 5/19/20 Use properties-default system/methods rather than this. (see line 17)
 
     /**
      * Port where the XBee device is located
@@ -114,7 +115,7 @@ public class Constants {
         }
     }
 
-    public static XBeeNetwork digiMeshNetwork = device.getNetwork();
+    public static XBeeNetwork network = device.getNetwork();
 
     public static Menu menu = new Menu();
 
