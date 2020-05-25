@@ -1,37 +1,62 @@
+package util;
 
 import com.digi.xbee.api.DigiMeshDevice;
 import com.digi.xbee.api.XBeeDevice;
 import com.digi.xbee.api.XBeeNetwork;
 import com.digi.xbee.api.exceptions.XBeeException;
+import listeners.BCDiscoveryListener;
+import ui.Menu;
 
 import javax.swing.*;
 import java.io.FileInputStream;
-import java.util.Properties;
+import java.lang.management.ManagementFactory;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.*;
 
 
 public class Constants {
 
-
-
-
     // Default values until properties file is read and constants are established.
     // TODO: 5/15/20 Do this with Properties.default methods, not manually
 
-    private static String port = "/dev/ttyUSB0"; // TODO: 5/19/20 Are we sure this is the correct format? Wouldn't it just be "USB1", not "/dev/ttyUSB1"?
+    private static String port = "/dev/ttyUSB0";
     private static int baud_Rate = 9600;
     private static int discovery_timeout = 10;
+
+
+    /**
+     * Convenience method for getting a time stamp in the system time zone, such as for prefixing a report to the debug
+     * console during runtime. The value in parenthesis is the time since startup.
+     * @return a string containing the time since program startup, the local date, and local time (ISO), with a
+     * colon and a space appended to the end.
+     * @see LocalDateTime
+     * @see Runtime
+     */
+    public static String timestamp(){
+        // FIXME: 5/22/20 finish javadoc comment
+
+        LocalDateTime localDateTime = LocalDateTime.now();
+
+        long uptime = ManagementFactory.getRuntimeMXBean().getUptime();
+
+        return "(" + uptime + ")" + // add the uptime
+                localDateTime.toLocalDate().format(DateTimeFormatter.ISO_LOCAL_DATE) + " " +
+                localDateTime.toLocalTime().format(DateTimeFormatter.ISO_LOCAL_TIME) + ": ";
+    }
 
 
     static {
         try {
             // Load the properties file.
             Properties properties = new Properties();
-            properties.load(new FileInputStream("configuration.properties"));
+            properties.load(new FileInputStream("util/configuration.properties"));
 
             // Replace the default values with the values located in the properties file
             port = properties.getProperty("port");
             baud_Rate = Integer.parseInt(properties.getProperty("baud_rate"));
             discovery_timeout = Integer.parseInt(properties.getProperty("discovery_timeout"));
+
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Unable to read configuration file. \n" +
@@ -44,13 +69,11 @@ public class Constants {
                             "\n\nError message: " + e.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
 
-            e.printStackTrace();
-
+            System.err.println(timestamp() + e.getMessage());
             // Execution can usually continue normally using default values
         }
     }
 
-    // TODO: 5/19/20 Use properties-default system/methods rather than this. (see line 17)
 
     /**
      * Port where the XBee device is located
@@ -78,11 +101,10 @@ public class Constants {
     static {
         device = new DigiMeshDevice(PORT, BAUD_RATE);
         try {
-            device.open(); // STOPSHIP: 5/19/20 requires superuser privileges, but xorg won't allow Swing GUI to be run as root!
-            // FIXME: 5/19/20 A possible fix to this may be to run the GUI in a separate process which does not have superuser privileges.
+            device.open();
 
         } catch (XBeeException e) {
-            //This will always occur unless the user has root privledges.
+
             JOptionPane.showMessageDialog(null, "An exception has occurred while opening " +
                             "connection interface with local device.\n" + e.getMessage() + "\nDo you have permission" +
                     " to access " + port + "?\nIs your module connected?\nIs your module properly configured?",
@@ -93,7 +115,7 @@ public class Constants {
         }
     }
 
-    public static XBeeNetwork digiMeshNetwork = device.getNetwork();
+    public static XBeeNetwork network = device.getNetwork();
 
     public static Menu menu = new Menu();
 
