@@ -1,17 +1,26 @@
-import listeners.BCDiscoveryListener;
-import util.Constants;
+import com.digi.xbee.api.DigiMeshDevice;
+import com.digi.xbee.api.DigiMeshNetwork;
+import com.digi.xbee.api.exceptions.XBeeException;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-public class Main extends Constants {
+import javax.crypto.KeyGenerator;
+import java.security.*;
 
-    public static void main(String[] args){
 
-        network.addDiscoveryListener(new BCDiscoveryListener()); // Add the custom discovery listener
+public class Main {
 
-        network.startDiscoveryProcess();
-        menu.setStatusLabel("Discovering devices, please wait...");
+    public static void main(String[] args) throws XBeeException {
 
-        menu.showWindow(); // Execution is passed over to the window class
+        DigiMeshDevice localDevice = new DigiMeshDevice("/dev/ttyUSB0", 9600);
+        localDevice.open();
+
+        DigiMeshNetwork digiMeshNetwork = (DigiMeshNetwork) localDevice.getNetwork();
+        digiMeshNetwork.addDiscoveryListener(new DiscoveryListener(digiMeshNetwork, localDevice));
+        digiMeshNetwork.startDiscoveryProcess();
+
+
 
     }
+
 
 }
