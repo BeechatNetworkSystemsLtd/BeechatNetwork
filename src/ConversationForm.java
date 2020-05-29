@@ -45,6 +45,9 @@ public class ConversationForm {
         this.network = network;
         this.localDevice = localDevice;
 
+        DataReceiveListener listener = new DataReceiveListener(network,localDevice, this);
+        localDevice.addDataListener(listener);
+
         textArea.setText("Starting conversation with " + remoteDevice.getNodeID() + " at " + LocalTime.now().toString());
 
         // Set up and display the GUI.
