@@ -79,7 +79,7 @@ public class ConversationForm {
         });
     }
 
-    /**
+    /** STANDARD
      * Send a message to the remote user, and display it on the text area.
      * An XBeeMessage is constructed from the message string and the remote node associated with this class.
      * It is then added to the messages HashMap.
@@ -93,7 +93,7 @@ public class ConversationForm {
         messages.put(time, xBeeMessage);
         localDevice.sendData(xBeeMessage.getDevice(), xBeeMessage.getData()); // TODO: 5/28/20 Encrypt this before sending
 
-        textArea.append("\n<<" + time.toString() + ">: " + message + ">");
+        textArea.append("\n<<" + time.toString() + ">>: " + message );
     }
 
     /**
@@ -105,9 +105,11 @@ public class ConversationForm {
         LocalTime time = LocalTime.now();
         messages.put(time, message);
 
-        textArea.append("\n<<" + time.toString() + ">: " + message.getDataString() + ">");
+        textArea.append("\n<<" + time.toString() + ">>: " + message.getDataString() );
     }
 
+
+    //Is this used at all?
     /**
      * When a message is received, it is sent to this method.
      * It is then added to the list of messages and displayed on the message list.
@@ -115,11 +117,12 @@ public class ConversationForm {
      * @param message the message to process
      * @see XBeeMessage
      */
-    void receiveMessage(XBeeMessage message){
+    void receiveMessage(String message){
         LocalTime time = LocalTime.now();
-        messages.put(time, message);
+        //messages.put(time, message);
+        //TODO: Getting an error above
 
-        textArea.append("\n[[" + time.toString() + "]: " + message.getDataString() + "]");
+        textArea.append("\n[[" + time.toString() + "]]: " + message);
     }
 
     // TODO: 5/28/20 Key exchange method and stuff?

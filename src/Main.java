@@ -1,10 +1,29 @@
 import com.digi.xbee.api.DigiMeshDevice;
 import com.digi.xbee.api.DigiMeshNetwork;
 import com.digi.xbee.api.exceptions.XBeeException;
+import com.github.cliftonlabs.json_simple.JsonException;
+
+import java.io.IOException;
 
 public class Main {
 
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws InterruptedException, JsonException, IOException {
+        //TODO: 5/30/20 Check if folders exist before creating them
+        String configfilesLocation = System.getProperty("user.dir");
+        String generatorsLocation = configfilesLocation;
+        String publickeysLocation = configfilesLocation;
+        String privatekeysLocation = configfilesLocation;
+        System.out.println(configfilesLocation);
+
+        //TODO: 5/30/20 Check if static keys exist before creating them
+        new GenKeys(0,"", configfilesLocation,generatorsLocation,publickeysLocation,privatekeysLocation);
+        System.out.println("Keys generated.");
+
+        //TEST
+        new GetSharedSecret("",configfilesLocation+"/myprivatekey.pem",configfilesLocation+"/publickey2.pem");
+        new CreateFile(configfilesLocation+"/sharedsecret");
+        System.out.println(new FileToString().get(configfilesLocation+"/sharedsecret"));
+        //TEST
 
         try {
             DigiMeshDevice localDevice = new DigiMeshDevice("/dev/ttyUSB0", 9600);
