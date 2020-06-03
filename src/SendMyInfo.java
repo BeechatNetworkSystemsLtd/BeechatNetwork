@@ -29,7 +29,7 @@ public class SendMyInfo {
             System.out.println("\nSending contact information to :"+ REMOTE_NODE_ID);
 
 
-            int chunklength = 255;
+            int chunklength = 70;
 
             if (localDevice.getNodeID().equals(REMOTE_NODE_ID)) {
                 System.err.println("Error: the value of the REMOTE_NODE_ID constant must be "
@@ -85,6 +85,7 @@ public class SendMyInfo {
                     }
                     System.out.println("Public key sent.");
 
+
                 }
             }
         } catch (XBeeException e) {
@@ -92,8 +93,7 @@ public class SendMyInfo {
             localDevice.close();
             System.exit(1);
         } finally {
-            localDevice.close();
-            //close device
+            System.out.println("Sent keys.");
         }
 
     }

@@ -15,15 +15,13 @@ public class Main {
         String privatekeysLocation = configfilesLocation;
         System.out.println(configfilesLocation);
 
-        //TODO: 5/30/20 Check if static keys exist before creating them
-        new GenKeys(0,"", configfilesLocation,generatorsLocation,publickeysLocation,privatekeysLocation);
-        System.out.println("Keys generated.");
 
-        //TEST
-        new GetSharedSecret("",configfilesLocation+"/myprivatekey.pem",configfilesLocation+"/publickey2.pem");
-        new CreateFile(configfilesLocation+"/sharedsecret");
-        System.out.println(new FileToString().get(configfilesLocation+"/sharedsecret"));
-        //TEST
+        if (new FileExists().getBoolean(configfilesLocation+"/mygenerator.pem").equals(false) &&
+                new FileExists().getBoolean(configfilesLocation+"/myrivatekey.pem").equals(false) &&
+                new FileExists().getBoolean(configfilesLocation+"/mypublickey.pem").equals(false)){
+            new GenKeys(0,"", configfilesLocation,generatorsLocation,publickeysLocation,privatekeysLocation);
+            System.out.println("Keys generated.");
+        }
 
         try {
             DigiMeshDevice localDevice = new DigiMeshDevice("/dev/ttyUSB0", 9600);
@@ -34,6 +32,11 @@ public class Main {
             DigiMeshNetwork digiMeshNetwork = (DigiMeshNetwork) localDevice.getNetwork();
             digiMeshNetwork.addDiscoveryListener(new DiscoveryListener(digiMeshNetwork, localDevice));
             digiMeshNetwork.startDiscoveryProcess(); // Execution is handed off to the DiscoveryListener
+
+            System.out.println("Starting DataListener.");
+            DataReceiveListener listener = new DataReceiveListener((DigiMeshNetwork) localDevice.getNetwork(),localDevice, null);
+            localDevice.addDataListener(listener);
+            System.out.println("Started DataListener.");
 
         } catch (XBeeException e){
             System.err.println("An error has occurred. " + e.getMessage());

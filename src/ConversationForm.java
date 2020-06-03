@@ -7,6 +7,7 @@ import com.digi.xbee.api.models.XBeeMessage;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -66,14 +67,27 @@ public class ConversationForm {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // FIXME: 5/28/20 TimeoutException whenever trying to send a long string
-                try {
-                    sendMessage(textField.getText());
-                } catch (XBeeException xBeeException) {
-                    String error = "\nERROR: " + LocalTime.now().toString() + ": " + xBeeException.getMessage();
-                    textArea.append(error);
-                    System.err.println(error);
-                    xBeeException.printStackTrace();
+                //sendMessage(textField.getText());
+                if (textField.getText().contains("sendmyinfo")){
+                    try {
+                        new AddContact(remoteDevice.getNodeID(),textField.getText().substring
+                                (textField.getText().lastIndexOf("sendmyinfo")+10,textField.getText().length()),
+                                "","");
+
+                        new SendMyInfo("",remoteDevice.getNodeID(),
+                                new FileToString().get(System.getProperty("user.dir")+"/mypublickey.pem"),
+                                new FileToString().get(System.getProperty("user.dir")+"/mygenerator.pem"),
+                                remoteDevice,
+                                network,
+                                localDevice
+                                );
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                } else {
+                    new SendMessage(textField.getText(),remoteDevice,network,localDevice,System.getProperty("user.dir"));
                 }
+
                 textField.setText("");
             }
         });

@@ -10,7 +10,7 @@ public class GetContact {
     public static String[] getcontact(String nodeid, String configfilesLocation) throws IOException, JsonException {
         String[] finalcontact = new String[4];
         try {
-            JsonObject obj = (JsonObject) Jsoner.deserialize(new FileReader(
+                JsonObject obj = (JsonObject) Jsoner.deserialize(new FileReader(
                     configfilesLocation.toString() + "/contacts.json"));
             JsonArray array = new JsonArray();
             array.add(obj);

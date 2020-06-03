@@ -29,6 +29,8 @@ public class DiscoveryListener implements IDiscoveryListener {
         // Set up a GUI panel to inform the user of the discovery process
         frame.setLayout(new BorderLayout());
         frame.setMinimumSize(new Dimension(300,400));
+        frame.setBackground(Color.black);
+        frame.setForeground(Color.white);
         frame.add(new JLabel("Discovering devices in network.\nPlease wait..."),
                 BorderLayout.NORTH);
         frame.pack();
@@ -59,8 +61,6 @@ public class DiscoveryListener implements IDiscoveryListener {
     @Override
     public void discoveryFinished(String s) {
 
-        frame.dispose();
-
         if (s == null) {
             JOptionPane.showMessageDialog(null, "Done! " + network.getNumberOfDevices() +
                     " devices found.", "Discovery finished", JOptionPane.INFORMATION_MESSAGE);
@@ -70,5 +70,9 @@ public class DiscoveryListener implements IDiscoveryListener {
         }
 
         new NetworkView(network, localDevice);
+
+        frame.dispose();
+
+
     }
 }
