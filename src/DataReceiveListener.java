@@ -86,7 +86,7 @@ public class DataReceiveListener implements IDataReceiveListener {
                 tempuname = tempuname.replace("-BEGIN UNAME-", "");
                 tempuname = tempuname.replace("-END UNAME-", "");
                 System.out.println("Temp UNAME:"+tempuname);
-                tempcontact[1][0] = tempuname;
+                tempcontact[2][0] = tempuname;
 
                 // GENERATOR KEY CATCH
             } else if (messages.get(linecounter).contains("-----BEGIN DH PARAMETERS-----")){
@@ -113,7 +113,7 @@ public class DataReceiveListener implements IDataReceiveListener {
                     System.out.println("****LOOPED****" + i);
                 }
                 System.out.println("Temp Generator:"+tempgenerator);
-                tempcontact[2][0] = tempgenerator;
+                tempcontact[1][0] = tempgenerator;
                 genkeyheaderIndex = 0;
                 genkeyfooterIndex = 0;
             }

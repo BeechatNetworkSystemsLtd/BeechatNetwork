@@ -15,6 +15,10 @@ public class Main {
         String privatekeysLocation = configfilesLocation;
         System.out.println(configfilesLocation);
 
+        String[] waddup = GetContact.getcontact(" XBEE1",configfilesLocation);
+        for (int f = 0; f < waddup.length; f++) {
+            System.out.println("LOOPED:"+waddup[f]);
+        }
 
         if (new FileExists().getBoolean(configfilesLocation+"/mygenerator.pem").equals(false) &&
                 new FileExists().getBoolean(configfilesLocation+"/myrivatekey.pem").equals(false) &&
