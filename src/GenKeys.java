@@ -46,16 +46,16 @@ public class GenKeys {
             //System.out.println("Calculating keys...\n");
             //write generator "contactgenerator.pem"
             try {
-                String cleangen = GetContact.getcontact(nodeid, configfilesLocation)[2];
+                String cleangen = (String) GetContact.getcontact(nodeid, configfilesLocation).get("generator");
                 cleangen = cleangen.replace("\\n", "?");
                 cleangen = cleangen.replace("\\", "");
                 cleangen = cleangen.replace("?", "\\n");
+                cleangen = cleangen.substring(0,cleangen.lastIndexOf("-"));
                 Process generator = Runtime.getRuntime().exec(new String[]{
                         "bash", "-c", "echo '" + cleangen + "' > " + generatorsLocation.toString() + "/" + nodeid +
                         "generator.pem; cat " + generatorsLocation.toString() + "/" + nodeid + "generator.pem | " +
                         "sed -i 's/\\\\n/\\'$'\\n''/g' " + generatorsLocation.toString() + "/" +
                         nodeid + "generator.pem"});
-
                 generator.waitFor();
 
                 //System.out.println("Contact generator key written.");
@@ -65,16 +65,19 @@ public class GenKeys {
 
             //write contact public key to file "contactpublickey.pem"
             try {
-                String cleanpubkey = GetContact.getcontact(nodeid,configfilesLocation)[3];
+                String cleanpubkey =  (String) GetContact.getcontact(nodeid, configfilesLocation).get("pubkey");
                 cleanpubkey = cleanpubkey.replace("\\n", "?");
                 cleanpubkey = cleanpubkey.replace("\\", "");
                 cleanpubkey = cleanpubkey.replace("?", "\\n");
+                cleanpubkey = cleanpubkey.substring(0,cleanpubkey.lastIndexOf("-"));
                 Process pubkeymake = Runtime.getRuntime().exec(new String[]{
                         "bash", "-c", "echo '" + cleanpubkey + "' > " + publickeysLocation.toString() + "/" + nodeid +
                         "publickey.pem; cat " + publickeysLocation.toString() + "/" + nodeid + "publickey.pem | sed -i" +
                         " 's/\\\\n/\\'$'\\n''/g' " + publickeysLocation.toString() + "/" + nodeid + "publickey.pem"});
 
                 pubkeymake.waitFor();
+
+
                 //System.out.println("Sending file...");
             } catch (IOException e1) {
                 System.out.println("Error creating contact public key file.");

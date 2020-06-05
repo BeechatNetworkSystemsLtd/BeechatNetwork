@@ -4,47 +4,32 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class GetContact {
-    public static String[] getcontact(String nodeid, String configfilesLocation) throws IOException, JsonException {
+    public static JsonObject getcontact(String nodeid, String configfilesLocation) throws IOException, JsonException {
         String[] finalcontact = new String[4];
+
+        JsonObject obj = new JsonObject();
+        JsonObject contacts = new JsonObject();
+
+        //Try to read all contacts from the contacts.json file.
         try {
-            JsonObject a = (JsonObject) Jsoner.deserialize(new FileReader(
+            obj = (JsonObject) Jsoner.deserialize(new FileReader(
                     configfilesLocation + "/contacts.json"));
-            System.out.println(a.get("XBEE 1"));
-
-
-
-            JsonArray array = new JsonArray();
-            //array.add(contactsfile);
-            int i = 0;
-            while (i <= array.size() - 1) {
-                String currstring = array.get(i).toString();
-                System.out.println(currstring);
-                if (currstring.contains(nodeid)) {
-                    System.out.println("CONTACT FOUND.");
-                    finalcontact[0] = nodeid;
-                    finalcontact[1] = currstring.substring(currstring.lastIndexOf("generator"+11));
-                    finalcontact[2] = currstring.substring(currstring.lastIndexOf("uname"+7));
-                    finalcontact[3] = currstring.substring(currstring.lastIndexOf("pubkey")
-                            + 9, currstring.lastIndexOf("END PUBLIC KEY-----") + 19);
-
-                } else {
-                    finalcontact[0] = "ERROR 2";
-                    finalcontact[1] = "ERROR 2";
-                    finalcontact[2] = "ERROR 2";
-                    finalcontact[3] = "ERROR 2";
-                }
-
-                i = i + 1;
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            finalcontact[0] = "ERROR 1";
-            finalcontact[1] = "ERROR 1";
-            finalcontact[2] = "ERROR 1";
-            finalcontact[3] = "ERROR 1";
-            return finalcontact;
+            //obj = (JsonObject) obj.get("contacts");
+            contacts = (JsonObject) obj.get("contacts");
+        } catch (JsonException e) {
+            //If there is an exception, interpret as if the contacts file has no contacts.
+            System.out.println("No contacts yet.");
+            //contacts.put("contacts",null);
         }
-        return finalcontact;
+        int i = 0;
+        while (i <= contacts.size() - 1) {
+            if (contacts.get(nodeid) != null) {
+                System.out.println("Contact found.");
+                return (JsonObject) contacts.get(nodeid);
+            }
+            i=i+1;
+        }
+        System.out.println("Contact not found.");
+        return null;
     }
-
 }

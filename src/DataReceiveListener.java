@@ -113,6 +113,7 @@ public class DataReceiveListener implements IDataReceiveListener {
                     System.out.println("****LOOPED****" + i);
                 }
                 System.out.println("Temp Generator:"+tempgenerator);
+                tempgenerator = tempgenerator.substring(0,tempgenerator.lastIndexOf("\n"));
                 tempcontact[1][0] = tempgenerator;
                 genkeyheaderIndex = 0;
                 genkeyfooterIndex = 0;
@@ -127,6 +128,7 @@ public class DataReceiveListener implements IDataReceiveListener {
                     System.out.println("****LOOPED****" + i);
                 }
                 temppubkey = temppubkey.substring(temppubkey.lastIndexOf("-----BEGIN PUBLIC KEY-----"));
+                temppubkey = temppubkey.substring(0,temppubkey.lastIndexOf("\n"));
                 System.out.println("Temp Pubkey:"+temppubkey);
 
                 tempcontact[3][0] = temppubkey;
@@ -134,6 +136,9 @@ public class DataReceiveListener implements IDataReceiveListener {
                 pubkeyfooterIndex = 0;
 
                 new AddContact(tempcontact[0][0], tempcontact[1][0], tempcontact[2][0], tempcontact[3][0]);
+                temppubkey = "";
+                tempgenerator = "";
+                tempuname = "";
             }
 
             //************CHAT***********************************
