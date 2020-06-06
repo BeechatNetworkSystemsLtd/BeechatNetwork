@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact name="BeeChatNetwork:jar">
+  <artifact build-on-make="true" name="BeeChatNetwork:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/BeeChatNetwork_jar</output-path>
     <root id="root">
       <element id="archive" name="BeeChatNetwork.jar">
