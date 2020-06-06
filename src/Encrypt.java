@@ -5,7 +5,7 @@ public class Encrypt {
         Process encwithSSP = null;
         try {
             encwithSSP = Runtime.getRuntime().exec(new String[]{
-                    "bash", "-c", "openssl enc -aes-256-cbc -in " + filePath + " -out " + outputPath + ".bin -pass pass:" +
+                    "bash", "-c", "openssl enc -aes-256-cbc -in " + filePath + " -out " + outputPath + " -pass pass:" +
                     sharedsecret});
         } catch (IOException e) {
             e.printStackTrace();

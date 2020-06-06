@@ -16,25 +16,9 @@ public class Main {
         String privatekeysLocation = configfilesLocation;
         System.out.println(configfilesLocation);
 
-        //JsonObject waddup = GetContact.getcontact("XBEE1",configfilesLocation);
-        try {
-            System.out.println(
-                    "THE GENERATOR IS:"+
-                            (String) GetContact.getcontact("XBEE2", configfilesLocation).get("generator")+
-
-                            "THE PUBKEY IS:"+
-                            (String) GetContact.getcontact("XBEE2", configfilesLocation).get("pubkey")
-            );
-            new GenKeys(1,"XBEE2",configfilesLocation,configfilesLocation,configfilesLocation,configfilesLocation);
-
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+        if (new FileExists().getBoolean(configfilesLocation+"/contacts.json").equals(false)) {
+            new CreateFile(configfilesLocation+"/contacts.json",false);
         }
-
-
-        //for (int f = 0; f < waddup.size(); f++) {
-            //System.out.println("LOOPED:"+waddup.get(f));
-        //}
 
         if (new FileExists().getBoolean(configfilesLocation+"/mygenerator.pem").equals(false) &&
                 new FileExists().getBoolean(configfilesLocation+"/myrivatekey.pem").equals(false) &&
@@ -53,10 +37,10 @@ public class Main {
             digiMeshNetwork.addDiscoveryListener(new DiscoveryListener(digiMeshNetwork, localDevice));
             digiMeshNetwork.startDiscoveryProcess(); // Execution is handed off to the DiscoveryListener
 
-            System.out.println("Starting DataListener.");
-            DataReceiveListener listener = new DataReceiveListener((DigiMeshNetwork) localDevice.getNetwork(),localDevice, null);
-            localDevice.addDataListener(listener);
-            System.out.println("Started DataListener.");
+            //System.out.println("Starting DataListener.");
+            //DataReceiveListener listener = new DataReceiveListener((DigiMeshNetwork) localDevice.getNetwork(),localDevice, null);
+            //localDevice.addDataListener(listener);
+            //System.out.println("Started DataListener.");
 
         } catch (XBeeException e){
             System.err.println("An error has occurred. " + e.getMessage());

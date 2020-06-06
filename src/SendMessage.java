@@ -38,15 +38,12 @@ public class SendMessage {
                             new DeleteSharedSecret();
 
 
-                            //send pubkey
                             int i = 0;
-                            int chunklength = 255;
+                            int chunklength = 70;
 
                             //SENDING HEADER
-                            String pubkeysend = new FileToString().get(configfilesLocation.toString() + "/" +
-                                    remoteDevice.getNodeID() + "mypublickey.pem");
-                            pubkeysend = pubkeysend.replace("\\n", "\n");
-                            String CHATHeader = "-----CHAT BEGIN-----\npubkey:" + pubkeysend + "\n";
+
+                            String CHATHeader = "-----CHAT BEGIN-----";
                             byte[] CHATHeaderbytebuffer = CHATHeader.getBytes();
 
                             while (i < CHATHeaderbytebuffer.length) {
@@ -55,7 +52,22 @@ public class SendMessage {
                                 i = i + chunklength;
                             }
 
-                            //try to send bytes over zigbee
+
+                            //Sending public key
+                            String pubkeysend = new FileToString().get(configfilesLocation.toString() + "/" +
+                            remoteDevice.getNodeID() + "mypublickey.pem");
+                            pubkeysend = pubkeysend.replace("\\n", "\n");
+
+                            byte[] bytebuffer = pubkeysend.getBytes();
+                            int len = bytebuffer.length;
+                            i = 0;
+                            while (i < len) {
+                                localDevice.sendData(remoteDevice, Arrays.copyOfRange(bytebuffer, i, i + chunklength));
+                                i = i + chunklength;
+                            }
+                            System.out.println("Public key sent.");
+
+                    //try to send bytes over zigbee
                             Path encmsgloc = Paths.get(configfilesLocation + "/msg.bin");
                             byte[] msgbytebuffer = Files.readAllBytes(encmsgloc);
                             if (msgbytebuffer.length < chunklength) {
@@ -68,7 +80,7 @@ public class SendMessage {
                                 i = i + chunklength;
                             }
 
-                            chunklength = 255;
+                            chunklength = 70;
                             //SENDING FOOTER
                             String CHATFooter = "-----CHAT END-----";
                             byte[] CHATFooterbytebuffer = CHATFooter.getBytes();

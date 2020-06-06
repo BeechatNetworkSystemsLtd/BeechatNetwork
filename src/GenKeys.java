@@ -50,14 +50,14 @@ public class GenKeys {
                 cleangen = cleangen.replace("\\n", "?");
                 cleangen = cleangen.replace("\\", "");
                 cleangen = cleangen.replace("?", "\\n");
-                cleangen = cleangen.substring(0,cleangen.lastIndexOf("-"));
+                cleangen = cleangen.substring(0,cleangen.lastIndexOf("-")+1);
                 Process generator = Runtime.getRuntime().exec(new String[]{
                         "bash", "-c", "echo '" + cleangen + "' > " + generatorsLocation.toString() + "/" + nodeid +
                         "generator.pem; cat " + generatorsLocation.toString() + "/" + nodeid + "generator.pem | " +
                         "sed -i 's/\\\\n/\\'$'\\n''/g' " + generatorsLocation.toString() + "/" +
                         nodeid + "generator.pem"});
                 generator.waitFor();
-
+               //new RemoveNewline(generatorsLocation+"/"+nodeid+"generator.pem");
                 //System.out.println("Contact generator key written.");
             } catch (IOException e1) {
                 System.out.println("Error creating contact generator file.");
@@ -69,14 +69,14 @@ public class GenKeys {
                 cleanpubkey = cleanpubkey.replace("\\n", "?");
                 cleanpubkey = cleanpubkey.replace("\\", "");
                 cleanpubkey = cleanpubkey.replace("?", "\\n");
-                cleanpubkey = cleanpubkey.substring(0,cleanpubkey.lastIndexOf("-"));
+                cleanpubkey = cleanpubkey.substring(0,cleanpubkey.lastIndexOf("-")+1);
                 Process pubkeymake = Runtime.getRuntime().exec(new String[]{
                         "bash", "-c", "echo '" + cleanpubkey + "' > " + publickeysLocation.toString() + "/" + nodeid +
                         "publickey.pem; cat " + publickeysLocation.toString() + "/" + nodeid + "publickey.pem | sed -i" +
                         " 's/\\\\n/\\'$'\\n''/g' " + publickeysLocation.toString() + "/" + nodeid + "publickey.pem"});
 
                 pubkeymake.waitFor();
-
+                //new RemoveNewline(publickeysLocation+"/"+nodeid+"publickey.pem");
 
                 //System.out.println("Sending file...");
             } catch (IOException e1) {
@@ -90,7 +90,9 @@ public class GenKeys {
                         generatorsLocation.toString() + "/" + nodeid + "generator.pem -out " +
                         privatekeysLocation.toString() + "/" + nodeid + "myprivatekey.pem"});
                 privatekey.waitFor();
-                //System.out.println("My private key generated.");
+                //new RemoveNewline(publickeysLocation+"/"+nodeid+"myprivatekey.pem");
+
+                System.out.println("My private key generated.");
             } catch (IOException e1) {
                 System.out.println("Error creating private key file.");
             }
@@ -101,6 +103,7 @@ public class GenKeys {
                         privatekeysLocation.toString() + "/" + nodeid + "myprivatekey.pem -pubout -out " +
                         publickeysLocation.toString() + "/" + nodeid + "mypublickey.pem"});
                 publickey.waitFor();
+                //new RemoveNewline(publickeysLocation+"/"+nodeid+"mypublickey.pem");
                 //System.out.println("My public key generated.");
             } catch (IOException e1) {
                 System.out.println("Error creating public key file.");

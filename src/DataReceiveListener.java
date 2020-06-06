@@ -26,6 +26,8 @@ public class DataReceiveListener implements IDataReceiveListener {
     public String tempuname = "";
     public String[][] tempcontact = new String[4][1];
     public int linecounter = 0;
+    public boolean pubkeyended = false;
+
 
     public int genkeyheaderIndex = 0;
     public int genkeyfooterIndex = 0;
@@ -67,6 +69,7 @@ public class DataReceiveListener implements IDataReceiveListener {
 // AES FILE CATCH
             if (messages.get(linecounter).contains("CHAT BEGIN")) {
                 AESSignal = true;
+                System.out.println("********************************CHAT BEGGINNING*********************************");
 // CONTACT CATCH
                 //	NODEID CATCH
             } else if (messages.get(linecounter).contains("-BEGIN NODEID-") &&
@@ -102,6 +105,7 @@ public class DataReceiveListener implements IDataReceiveListener {
             } else if (messages.get(linecounter).contains("-----END PUBLIC KEY-----")) {
                 pubkeyfooterIndex = linecounter +1;
                 System.out.println(pubkeyfooterIndex+" *************FOOTER*************");
+
             }
 
             if (genkeyfooterIndex != 0 && genkeyheaderIndex != 0){
@@ -135,18 +139,29 @@ public class DataReceiveListener implements IDataReceiveListener {
                 pubkeyheaderIndex = 0;
                 pubkeyfooterIndex = 0;
 
-                new AddContact(tempcontact[0][0], tempcontact[1][0], tempcontact[2][0], tempcontact[3][0]);
-                temppubkey = "";
-                tempgenerator = "";
-                tempuname = "";
+                if (tempcontact[0][0] != null &&
+                        tempcontact[1][0] !=null &&
+                        tempcontact[2][0] !=null
+                ){
+                    System.out.println("ADDING CONTACT");
+                    new AddContact(tempcontact[0][0], tempcontact[1][0], tempcontact[2][0], tempcontact[3][0]);
+                    temppubkey = null;
+                    tempgenerator = null;
+                    tempuname = null;
+                    tempcontact[0][0] = null;
+                    tempcontact[1][0] = null;
+                    tempcontact[2][0] = null;
+                    tempcontact[3][0] = null;
+                }
+                pubkeyended = true;
             }
 
             //************CHAT***********************************
             if (AESSignal) {
                 if (temppubkey != null) {
                     try {
-                        String cleanpubkey = temppubkey.substring(temppubkey.indexOf
-                                ("-----BEGIN PUBLIC KEY-----"));
+                        //TODO: add this as try catch as state 3 of GenKeys
+                        String cleanpubkey = tempcontact[3][0];//.substring(temppubkey.indexOf("-----BEGIN PUBLIC KEY-----"));
 
                         cleanpubkey = cleanpubkey.replace("\\n", "?");
                         cleanpubkey = cleanpubkey.replace("\\", "");
@@ -160,8 +175,8 @@ public class DataReceiveListener implements IDataReceiveListener {
 
                         pubkeymake.waitFor();
 
-                        //System.out.println("Contact public key written.");
-                        temppubkey = null;
+                        System.out.println("Contact public key written.");
+                        //temppubkey = null;
                     } catch (IOException e1) {
                         System.out.println("Error creating contact public key file.");
                     } catch (InterruptedException e) {
@@ -178,7 +193,7 @@ public class DataReceiveListener implements IDataReceiveListener {
                         e.printStackTrace();
                     }
 
-                    //System.out.println("SHARED SECRET:"+sharedsecret);
+                    System.out.println("SHARED SECRET:"+sharedsecret);
                     //Delete sharedsecret file
                     try {
                         new DeleteSharedSecret();
@@ -191,15 +206,16 @@ public class DataReceiveListener implements IDataReceiveListener {
                 } // end pubkey!=null
 
 
-                if ( !(messages.get(linecounter).contains("-")) ) {
-                    //Message received is NOT a keypair exchange
-                    //Add the bytes to the tempfilearray
+                //If current message received is NOT a keypair exchange
+                //Add the bytes to the tempfilearray
+                if (pubkeyended == true && !xBeeMessage.getDataString().contains("---")) {
                     tempfilearray.add(xBeeMessage.getData());
+                    System.out.println("****************************ADDED DATA****************************");
                 }
 
                 if (messages.get(linecounter).contains("CHAT END")) {
 
-                    //System.out.println("Receiving file...");
+                    System.out.println("****************************PROCESSING FILE****************************");
 
                     //								Convert arraylist to byte array
                     int i = 0;
@@ -211,32 +227,11 @@ public class DataReceiveListener implements IDataReceiveListener {
                     }
 
                     //If file exists, overwrite old file, TODO maybe ask for user input?
-                    File message = new File(configfilesLocation+"/msg");
-                    if(message.exists() && !message.isDirectory()) {
-                        try {
-                            Process remold = Runtime.getRuntime().exec(new String[]{
-                                    "bash", "-c", "rm -rf " + configfilesLocation + "/msg"});
-                            remold.waitFor();
-                        } catch (IOException | InterruptedException e1) {
-                            System.out.println("Error removing old file.");
-                        }
-                    }
-
                     File encmessage = new File(configfilesLocation+"/msg.bin");
-                    if(encmessage.exists() && !encmessage.isDirectory()) {
-                        try {
-                            Process remold = Runtime.getRuntime().exec(new String[]{
-                                    "bash", "-c", "rm -rf " + configfilesLocation + "/msg.bin"});
-                            remold.waitFor();
-                        } catch (IOException | InterruptedException e1) {
-                            System.out.println("Error removing old file.");
-                        }
-                    }
-
 
                     //Make new, empty file for the new data received.
                     try {
-                        new CreateFile(configfilesLocation + "/msg");
+                        new CreateFile(encmessage.getAbsolutePath(),true);
 
                         //write byte array to file
                         try (FileOutputStream stream = new FileOutputStream(
@@ -253,11 +248,14 @@ public class DataReceiveListener implements IDataReceiveListener {
                     }
                     new RemoveEndZeros(configfilesLocation+"/msg.bin");
 
+
                     //	CLEAR tempfilearray for next message
                     tempfilearray.removeAll(tempfilearray);
                     tempfile = null;
 
                     try {
+                        System.out.println(encmessage.getAbsolutePath());
+                        System.out.println(encmessage.getAbsolutePath().substring(0,encmessage.getAbsolutePath().lastIndexOf(".bin")));
                         new Decrypt(encmessage.getAbsolutePath(),sharedsecret);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
@@ -287,9 +285,12 @@ public class DataReceiveListener implements IDataReceiveListener {
                     + "/" + xbeeMessage.getDevice().getNodeID()});
                     appendtologfile.waitFor();
                     TODO: maybe there is a better way to append to logfiles?
-                    System.out.println("END REACHED");
-                    */
 
+                    */
+                    System.out.println("END REACHED");
+
+                    pubkeyended = false;
+                    temppubkey = null;
                     AESSignal = false;
                 }
 
@@ -300,7 +301,7 @@ public class DataReceiveListener implements IDataReceiveListener {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            System.out.println(xBeeMessage.getDataString());
+            //System.out.println(xBeeMessage.getDataString());
             linecounter = linecounter +1;
             //if (!(tempcontact[3][0].isBlank() && (tempcontact[2][0].isBlank()) &&
                     //(tempcontact[1][0].isBlank()) && (tempcontact[0][0].isBlank()))) {
