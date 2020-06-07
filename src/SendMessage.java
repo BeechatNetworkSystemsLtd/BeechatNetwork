@@ -32,6 +32,8 @@ public class SendMessage {
                             //Getting shared secret
                             new GetSharedSecret(remoteDevice.getNodeID(), configfilesLocation+"/"+remoteDevice.getNodeID()+"myprivatekey.pem", configfilesLocation+"/"+remoteDevice.getNodeID()+"publickey.pem");
 
+                            System.out.println(configfilesLocation+"/sharedsecret");
+
                             //Create Encrypted message file
                             new Encrypt(configfilesLocation+"/msg",configfilesLocation+"/msg.bin",
                                     new FileToString().get(System.getProperty("user.dir")+"/sharedsecret"));
