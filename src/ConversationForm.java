@@ -68,6 +68,7 @@ public class ConversationForm {
             public void actionPerformed(ActionEvent e) {
                 // FIXME: 5/28/20 TimeoutException whenever trying to send a long string
                 //sendMessage(textField.getText());
+                LocalTime time = LocalTime.now();
                 if (textField.getText().contains("sendmyinfo")){
                     try {
                         //new AddContact(remoteDevice.getNodeID(),textField.getText().substring
@@ -86,6 +87,8 @@ public class ConversationForm {
                     }
                 } else {
                     new SendMessage(textField.getText(),remoteDevice,network,localDevice,System.getProperty("user.dir"));
+                    textArea.append("\n<<" + time.toString() + ">>: " + textField.getText() );
+
                 }
 
                 textField.setText("");
