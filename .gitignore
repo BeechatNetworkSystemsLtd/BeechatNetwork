@@ -1,0 +1,13 @@
+.idea
+/out
+.iml
+
+.vscode
+.classpath
+.project
+.settings
+/target
+
+
+contacts.json
+mygenerator.pem
