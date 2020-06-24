@@ -1,3 +1,5 @@
+package com.beechat.beechatnetwork;
+
 import com.digi.xbee.api.DigiMeshDevice;
 import com.digi.xbee.api.DigiMeshNetwork;
 import com.digi.xbee.api.RemoteDigiMeshDevice;
@@ -11,13 +13,13 @@ public class SendMyInfo {
     RemoteDigiMeshDevice remoteDevice;
     DigiMeshNetwork network;
     ConversationForm conversationForm;
-    
-    public SendMyInfo(String uname, String REMOTE_NODE_ID, String myPublicKey, String myGen, RemoteDigiMeshDevice remoteDevice, DigiMeshNetwork network, DigiMeshDevice localDevice) {
+
+    public SendMyInfo(String uname, String REMOTE_NODE_ID, String myPublicKey, String myGen,
+            RemoteDigiMeshDevice remoteDevice, DigiMeshNetwork network, DigiMeshDevice localDevice) {
 
         this.remoteDevice = remoteDevice;
         this.network = network;
         this.localDevice = localDevice;
-
 
         if (localDevice.isOpen()) {
             localDevice.close();
@@ -26,8 +28,7 @@ public class SendMyInfo {
         try {
             localDevice.open();
             System.out.println("\nLocal XBee: " + localDevice.getNodeID());
-            System.out.println("\nSending contact information to :"+ REMOTE_NODE_ID);
-
+            System.out.println("\nSending contact information to :" + REMOTE_NODE_ID);
 
             int chunklength = 70;
 
@@ -36,16 +37,15 @@ public class SendMyInfo {
                         + "the Node Identifier (NI) of the OTHER module.");
             } else {
                 System.out.println("\nEstablishing connection with " + REMOTE_NODE_ID + "...");
-                 network = (DigiMeshNetwork) localDevice.getNetwork();
-                 remoteDevice = (RemoteDigiMeshDevice) network.discoverDevice(REMOTE_NODE_ID);
+                network = (DigiMeshNetwork) localDevice.getNetwork();
+                remoteDevice = (RemoteDigiMeshDevice) network.discoverDevice(REMOTE_NODE_ID);
 
                 if (remoteDevice != null) {
                     System.out.println("Connection established.\n");
 
-
                     int i = 0;
 
-                    //SENDING NODEID
+                    // SENDING NODEID
                     String mynodeid = "-----BEGIN NODEID-----" + localDevice.getNodeID() + "-----END NODEID-----";
                     byte[] bytebuffer = mynodeid.getBytes();
                     int len = bytebuffer.length;
@@ -54,7 +54,7 @@ public class SendMyInfo {
                         i = i + chunklength;
                     }
                     System.out.println("NODEID sent.");
-                    //sending uname
+                    // sending uname
                     mynodeid = "-----BEGIN UNAME-----" + uname + "-----END UNAME-----";
                     bytebuffer = mynodeid.getBytes();
                     len = bytebuffer.length;
@@ -65,7 +65,7 @@ public class SendMyInfo {
                     }
                     System.out.println("UNAME sent.");
 
-                    //sending generator key
+                    // sending generator key
                     bytebuffer = myGen.getBytes();
                     len = bytebuffer.length;
                     i = 0;
@@ -75,7 +75,7 @@ public class SendMyInfo {
                     }
                     System.out.println("Generator key sent.");
 
-                    //Sending public key
+                    // Sending public key
                     bytebuffer = myPublicKey.getBytes();
                     len = bytebuffer.length;
                     i = 0;
@@ -84,7 +84,6 @@ public class SendMyInfo {
                         i = i + chunklength;
                     }
                     System.out.println("Public key sent.");
-
 
                 }
             }

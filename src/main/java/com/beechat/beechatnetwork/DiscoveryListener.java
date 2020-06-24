@@ -1,3 +1,5 @@
+package com.beechat.beechatnetwork;
+
 import com.digi.xbee.api.DigiMeshDevice;
 import com.digi.xbee.api.DigiMeshNetwork;
 import com.digi.xbee.api.RemoteXBeeDevice;
@@ -12,15 +14,18 @@ public class DiscoveryListener implements IDiscoveryListener {
     DigiMeshDevice localDevice;
 
     JFrame frame = new JFrame("Please wait...");
-    // TODO: 5/28/20 Add a countdown to show how many seconds are left until discovery is finished
+    // TODO: 5/28/20 Add a countdown to show how many seconds are left until
+    // discovery is finished
 
     /**
-     * A discovery listener. Use this on a DigiMeshNetwork to discover any DigiMesh devices within range.
-     * @param network network to perform discovery on.
+     * A discovery listener. Use this on a DigiMeshNetwork to discover any DigiMesh
+     * devices within range.
+     * 
+     * @param network     network to perform discovery on.
      * @param localDevice local DigiMesh device
      * @see IDiscoveryListener
      */
-    DiscoveryListener(DigiMeshNetwork network, DigiMeshDevice localDevice){
+    DiscoveryListener(DigiMeshNetwork network, DigiMeshDevice localDevice) {
         this.network = network;
         this.localDevice = localDevice;
 
@@ -28,11 +33,10 @@ public class DiscoveryListener implements IDiscoveryListener {
 
         // Set up a GUI panel to inform the user of the discovery process
         frame.setLayout(new BorderLayout());
-        frame.setMinimumSize(new Dimension(300,400));
+        frame.setMinimumSize(new Dimension(300, 400));
         frame.setBackground(Color.black);
         frame.setForeground(Color.white);
-        frame.add(new JLabel("Discovering devices in network.\nPlease wait..."),
-                BorderLayout.NORTH);
+        frame.add(new JLabel("Discovering devices in network.\nPlease wait..."), BorderLayout.NORTH);
         frame.pack();
         frame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         frame.setVisible(true);
@@ -40,7 +44,9 @@ public class DiscoveryListener implements IDiscoveryListener {
     }
 
     /**
-     * Is called when a device is discovered. Adds the device to the local network, and notifies the user.
+     * Is called when a device is discovered. Adds the device to the local network,
+     * and notifies the user.
+     * 
      * @param remoteXBeeDevice
      */
     @Override
@@ -62,17 +68,16 @@ public class DiscoveryListener implements IDiscoveryListener {
     public void discoveryFinished(String s) {
 
         if (s == null) {
-            JOptionPane.showMessageDialog(null, "Done! " + network.getNumberOfDevices() +
-                    " devices found.", "Discovery finished", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Done! " + network.getNumberOfDevices() + " devices found.",
+                    "Discovery finished", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Done! " + network.getNumberOfDevices() +
-                    " devices found.\n" + s, "Discovery Finished", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Done! " + network.getNumberOfDevices() + " devices found.\n" + s,
+                    "Discovery Finished", JOptionPane.INFORMATION_MESSAGE);
         }
 
         new NetworkView(network, localDevice);
 
         frame.dispose();
-
 
     }
 }

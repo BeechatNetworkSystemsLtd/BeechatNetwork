@@ -1,3 +1,5 @@
+package com.beechat.beechatnetwork;
+
 import java.io.*;
 
 public class FileToString {

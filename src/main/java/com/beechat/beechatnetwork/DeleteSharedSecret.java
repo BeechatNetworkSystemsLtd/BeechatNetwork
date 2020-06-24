@@ -1,3 +1,5 @@
+package com.beechat.beechatnetwork;
+
 import java.io.IOException;
 
 public class DeleteSharedSecret {
@@ -5,8 +7,8 @@ public class DeleteSharedSecret {
 
         Process deletesharedsecretfile = null;
         try {
-            deletesharedsecretfile = Runtime.getRuntime().exec(new String[]{
-                    "bash", "-c", "rm -rf " + System.getProperty("user.dir") + "/sharedsecret"});
+            deletesharedsecretfile = Runtime.getRuntime()
+                    .exec(new String[] { "bash", "-c", "rm -rf " + System.getProperty("user.dir") + "/sharedsecret" });
             deletesharedsecretfile.waitFor();
         } catch (IOException e) {
             // TODO Auto-generated catch block
