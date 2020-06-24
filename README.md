@@ -31,3 +31,16 @@ BeeChat is extremely flexible. Here are just some of the ways we think BeeChat c
     In case of a natural disaster or civil unrest, normal internet may not be functional. In such a case, BeeChat can provide vital communication functionalities to allow users to stay in touch with friends and loved ones.
 
 * **Hacker-proof Internet Of Things (IOT)**
+
+
+## Building 
+
+``bash
+mvn clean package
+``
+
+## Running
+
+``bash
+java -jar target/beechatnetwork-1.0.0-SNAPSHOT-jar-with-dependencies.jar
+``
