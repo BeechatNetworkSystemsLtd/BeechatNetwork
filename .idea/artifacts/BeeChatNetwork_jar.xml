@@ -1,12 +1,14 @@
 <component name="ArtifactManager">
-  <artifact build-on-make="true" name="BeeChatNetwork:jar">
+  <artifact type="jar" name="BeeChatNetwork:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/BeeChatNetwork_jar</output-path>
-    <root id="root">
-      <element id="archive" name="BeeChatNetwork.jar">
-        <element id="module-output" name="BeeChatNetwork" />
-      </element>
-      <element id="library" level="project" name="com.github.cliftonlabs:json-simple:3.1.1" />
-      <element id="library" level="project" name="com.digi.xbee:xbee-java-library:1.3.0" />
+    <root id="archive" name="BeeChatNetwork.jar">
+      <element id="module-output" name="BeeChatNetwork" />
+      <element id="extracted-dir" path="/usr/share/java/bcprov.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/digi/xbee/xbee-java-library/1.3.0/xbee-java-library-1.3.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2/rxtx-2.2.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/rxtx/rxtx-native/2.2/rxtx-native-2.2-linux_x86_64.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.12/slf4j-api-1.7.12.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/org/slf4j/slf4j-jdk14/1.7.12/slf4j-jdk14-1.7.12.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>
