@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="org.openjfx:javafx-archetype-fxml:0.0.5" type="repository">
+    <properties maven-id="org.openjfx:javafx-archetype-fxml:0.0.5" />
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-archetype-fxml/0.0.5/javafx-archetype-fxml-0.0.5.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

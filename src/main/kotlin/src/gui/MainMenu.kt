@@ -19,10 +19,9 @@
 
 package src.gui
 
-import javafx.fxml.FXML
+import javafx.scene.Scene
+import javafx.stage.Stage
 
-class MainMenu {
-    init {
+class MainMenu(val stage: Stage) {
 
-    }
 }
