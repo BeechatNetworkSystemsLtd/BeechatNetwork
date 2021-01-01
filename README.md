@@ -1,6 +1,6 @@
 # BeeChatNetwork
 
-**Open source (MIT), peer-to-peer, radio communication chat based on the [ZigBee standard](https://zigbeealliance.org/).**
+**Open source (GPL 3), peer-to-peer, radio communication chat based on the [ZigBee standard](https://zigbeealliance.org/).**
 
 ---
 
