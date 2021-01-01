@@ -1,10 +1,13 @@
 <component name="libraryTable">
   <library name="com.digi.xbee:xbee-java-library:1.3.0" type="repository">
-    <properties maven-id="com.digi.xbee:xbee-java-library:1.3.0" />
+    <properties maven-id="com.digi.xbee:xbee-java-library:1.3.0">
+      <exclude>
+        <dependency maven-id="org.rxtx:rxtx-native" />
+      </exclude>
+    </properties>
     <CLASSES>
       <root url="jar://$MAVEN_REPOSITORY$/com/digi/xbee/xbee-java-library/1.3.0/xbee-java-library-1.3.0.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/rxtx/rxtx/2.2/rxtx-2.2.jar!/" />
-      <root url="jar://$MAVEN_REPOSITORY$/org/rxtx/rxtx-native/2.2/rxtx-native-2.2-linux_x86_64.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-api/1.7.12/slf4j-api-1.7.12.jar!/" />
       <root url="jar://$MAVEN_REPOSITORY$/org/slf4j/slf4j-jdk14/1.7.12/slf4j-jdk14-1.7.12.jar!/" />
     </CLASSES>
