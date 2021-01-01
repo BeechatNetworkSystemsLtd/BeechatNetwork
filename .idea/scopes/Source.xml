@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Source" pattern="(*.kt||file[BeeChatNetwork]:src/main/kotlin//*)&amp;&amp;!file:src/main/kotlin/module-info.java||file[BeeChatNetwork]:src/main/resources/*" />
+</component>
