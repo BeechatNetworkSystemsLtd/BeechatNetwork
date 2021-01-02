@@ -40,7 +40,9 @@ class BeeChatTransmission(header: Int, data: ByteArray, val target: RemoteDigiMe
         while (dataStream.available() > 0) {
             val message = ByteArrayOutputStream()
             message.write(header); message.write(numberOfMessages); numberOfMessages--
-            message.writeBytes(dataStream.readNBytes(70))
+            val array = ByteArray(70)
+            dataStream.read(array)
+            message.write(array)
             byteArrays.add(message.toByteArray())
         }
     }

@@ -19,7 +19,6 @@
 
 package src.gui
 
-import javafx.scene.Scene
 import javafx.stage.Stage
 
 class MainMenu(val stage: Stage) {

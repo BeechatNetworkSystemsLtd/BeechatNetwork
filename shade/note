@@ -1,0 +1,6 @@
+TODO: How can we include bcprov as a module (since it is a dependency and cannot be included in the .jar)?
+I tried doing --module-path "/usr/share/java" --add-modules bcprov.jar but that didn't work because there were a bunch of
+"multiple modules with the same name".
+I suppose a workaround would be putting bcprov into a seperate folder for itself?
+
+    -T. A Dumb Contributor

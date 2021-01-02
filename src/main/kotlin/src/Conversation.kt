@@ -60,7 +60,7 @@ class Conversation(val device: RemoteDigiMeshDevice) { // TODO: 12/26/20 Documen
             override fun dataReceived(message: XBeeMessage) {
                 if (message.device == device) {
                     logger.info("Writing bytes to buffer...")
-                    messageStream.writeBytes(message.data.copyOfRange(2, message.data.size))
+                    messageStream.write(message.data.copyOfRange(2, message.data.size))
 
                     if (message.data[1].toInt() == 0) {
                         logger.info("Attempting to decrypt...")

@@ -1,0 +1,28 @@
+<component name="ArtifactManager">
+  <artifact type="javafx" name="BeeChatNetwork">
+    <output-path>$PROJECT_DIR$/out/artifacts/BeeChatNetwork</output-path>
+    <properties id="javafx-properties">
+      <options>
+        <option name="appClass" value="src.Main" />
+        <option name="description" value="BeeChat is an open source set of hardware and software which allows people to securely communicate over encrypted peer-to-peer short-range radio connections, and without relying on commercial infrastructure." />
+        <option name="htmlPlaceholderId" value="" />
+        <option name="title" value="BeeChat" />
+        <option name="vendor" value="BeeChat Systems" />
+        <option name="version" value="" />
+      </options>
+    </properties>
+    <root id="root">
+      <element id="archive" name="BeeChatNetwork.jar">
+        <element id="module-output" name="BeeChatNetwork" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-base:15.0.1" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:linux:15.0.1" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-graphics:15.0.1" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:linux:15.0.1" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-fxml:15.0.1" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:linux:15.0.1" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-controls:15.0.1" />
+        <element id="library" level="project" name="Maven: org.openjfx:javafx-base:linux:15.0.1" />
+      </element>
+    </root>
+  </artifact>
+</component>
